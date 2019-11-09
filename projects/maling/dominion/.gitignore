@@ -1,0 +1,7 @@
+*.gcno
+*.gcda
+*.o
+*.dSYM/
+playdom
+player
+unittest1
