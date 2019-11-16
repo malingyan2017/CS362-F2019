@@ -5,3 +5,5 @@
 playdom
 player
 unittest1
+*.gcov
+testDrawCard
