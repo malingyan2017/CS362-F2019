@@ -7,3 +7,6 @@ player
 unittest1
 *.gcov
 testDrawCard
+randomtestcard1
+randomtestcard2
+randomtestcard3

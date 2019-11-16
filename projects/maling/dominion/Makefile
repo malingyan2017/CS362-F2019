@@ -24,29 +24,21 @@ runtests: testDrawCard
 unittest_assert.o: dominion_helpers.h unittest_assert.c
 	gcc -c unittest_assert.c -g $(CFLAGS)
 
-unittest1: unittest1.c dominion.o rngs.o unittest_assert.o
-	gcc  -o unittest1 -g  unittest1.c dominion.o rngs.o unittest_assert.o $(CFLAGS)
+randomtestcard1: randomtestcard1.c dominion.o rngs.o unittest_assert.o
+	gcc -o randomtestcard1 -g randomtestcard1.c dominion.o rngs.o unittest_assert.o $(CFLAGS)
 
-unittest2: unittest2.c dominion.o rngs.o unittest_assert.o
-	gcc  -o unittest2 -g  unittest2.c dominion.o rngs.o unittest_assert.o $(CFLAGS)
+randomtestcard2: randomtestcard2.c dominion.o rngs.o unittest_assert.o
+	gcc -o randomtestcard2 -g randomtestcard2.c dominion.o rngs.o unittest_assert.o $(CFLAGS)
 
-unittest3: unittest3.c dominion.o rngs.o unittest_assert.o
-	gcc  -o unittest3 -g  unittest3.c dominion.o rngs.o unittest_assert.o $(CFLAGS)
+randomtestcard3: randomtestcard3.c dominion.o rngs.o unittest_assert.o
+	gcc -o randomtestcard3 -g randomtestcard3.c dominion.o rngs.o unittest_assert.o $(CFLAGS)
 
-unittest4: unittest4.c dominion.o rngs.o unittest_assert.o
-	gcc  -o unittest4 -g  unittest4.c dominion.o rngs.o unittest_assert.o $(CFLAGS)
-
-unittest5: unittest5.c dominion.o rngs.o unittest_assert.o
-	gcc  -o unittest5 -g  unittest5.c dominion.o rngs.o unittest_assert.o $(CFLAGS)
-
-unittestresults: unittest1 unittest2 unittest3 unittest4 unittest5
-	./unittest1 &> unittestresult.out
-	./unittest2 >> unittestresult.out
-	./unittest3 >> unittestresult.out
-	./unittest4 >> unittestresult.out
-	./unittest5 >> unittestresult.out
-	gcov -b -f dominion.c >> unittestresult.out
-	cat dominion.c.gcov >> unittestresult.out
+randomtestresults: randomtestcard1 randomtestcard2 randomtestcard3
+	./randomtestcard1 &> randomtestresults.out
+	./randomtestcard2 >> randomtestresults.out
+	./randomtestcard3 >> randomtestresults.out
+	gcov -b -f dominion.c >> randomtestresults.out
+	cat dominion.c.gcov >> randomtestresults.out
 
 player: player.c interface.o
 	gcc -o player player.c -g  dominion.o rngs.o interface.o $(CFLAGS)
