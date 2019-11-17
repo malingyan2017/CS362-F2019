@@ -12,50 +12,69 @@ void checkBaronEffect(int choice1, int p, struct gameState *post) {
 
 	baronEffect(choice1, post, p);
 
-	printf("Testing when choice1 is bigger than 0:\n");
+	printf("Testing when choice1 is %d:\n", choice1);
+   
+	if (choice1){
+        myAssert(pre.numBuys + 1 == post->numBuys, "numBuys should increase by 1");
 
-	//myAssert(pre.numBuys + 1 == post->numBuys, "numBuys should be 1 less.");
-	printf("numBuys before: %d\n", pre.numBuys);
-	printf("numBuys after: %d\n", post->numBuys);
-	printf("numBuys after should be : %d\n", pre.numBuys + 1);
+	
+        myAssert(pre.coins + 4 == post->coins,"coins should increase by 4" );
 
-	printf("coins before: %d\n", pre.coins);
-	printf("coins after: %d\n", post->coins);
-	printf("coins after should be: %d\n", pre.coins + 4);
-
-	printf("discard count before: %d\n", pre.discardCount[0]);
-	printf("discard count after: %d\n", post->discardCount[0]);
-	printf("discard count after should be: %d\n", pre.discardCount[0] + 1);
+        if(pre.discardCount[0] + 1 != post->discardCount[0]){
+        printf("failed, discount should increase by 1.\n");
+        }
+        else{
+        printf("passed, discount test\n");
+        }
+    }
+    else{
+        if(pre.supplyCount[estate] - 1 != post->supplyCount[estate]){
+        printf("failed, supplycount estate should decrease by 1.\n");
+        }
+        else{
+        printf("passed, supplycount estate should decrease by 1.\n");
+        }
+    }
 }
+    
+	
 
 int main()
 {
-    int i, n, p;
+    int k[10] = {adventurer, council_room, feast, gardens, mine,
+                 remodel, smithy, village, baron, great_hall
+                };
 
-    struct gameState G;
+	int playernum = 2;
+	int seed = 100;
+    int i;
 
-    printf ("Testing baronEffect.\n");
+	struct gameState G;
+	memset(&G, 23, sizeof(struct gameState));
 
-    printf ("RANDOM TESTS.\n");
+    for (i = 0; i < 100; i++){
+        printf("\nbegin random test baroneffect round %d\n", i);
+        initializeGame(playernum, k, seed, &G);
 
-    SelectStream(2);
-    PutSeed(3);
+    int choice1=random()%2;
+    int p = 0;
 
-    for (n = 0; n < 200; n++) {
-        for (i = 0; i < sizeof(struct gameState); i++) {
-            ((char*)&G)[i] = floor(Random() * 256);
-        }
-        p = floor(Random() * 2);
-        G.deckCount[p] = floor(Random() * MAX_DECK);
-        G.discardCount[p] = floor(Random() * MAX_DECK);
-        G.handCount[p] = floor(Random() * MAX_HAND);
-        drawCard(p, &G);
+    G.numBuys= random()% 100;
+    G.coins=random()%100;
+    G.discardCount[p]= random()%10;
+    G.supplyCount[estate] = random()%10;
 
-        int choice1 = floor(Random() * G.handCount[p]);
-        checkBaronEffect(choice1, p, &G);
+
+
+	checkBaronEffect(choice1, p, &G);
+	
+
+
+    
     }
+	printf ("Test completed.\n");
 
-    printf ("ALL TESTS OK\n");
+    exit(0);
 
-    return 0;
+    
 }

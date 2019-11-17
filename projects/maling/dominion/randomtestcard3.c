@@ -19,19 +19,39 @@ void checkTributeEffect1(struct gameState *post)
 		drawCard(currentPlayer, post);
 	}
 
-	printf("Test when both card revealed are copper:\n");
-	post->hand[nextPlayer][0] = copper;
-	post->hand[nextPlayer][1] = copper;
-	post->hand[nextPlayer][2] = baron;
-	post->hand[nextPlayer][3] = silver;
-	post->hand[nextPlayer][4] = gold;
+	pre.deckCount[nextPlayer] = random()% 10;
+	pre.discardCount[nextPlayer] = random()%10;
+
+	int myarray[] = {copper, copper, baron, silver, gold};
+
+	printf("test when cards are randomly put in hand.\n");
+	post->hand[nextPlayer][0] = myarray[random()%5];
+	post->hand[nextPlayer][1] = myarray[random()%5];
+	post->hand[nextPlayer][2] = myarray[random()%5];
+	post->hand[nextPlayer][3] = myarray[random()%5];
+	post->hand[nextPlayer][4] = myarray[random()%5];
 
 	tributeEffect(currentPlayer, post);
-
-	myAssert(pre.coins + 2 == post->coins, "coins should increase 2");
+	if(post->hand[nextPlayer][0] == post->hand[nextPlayer][1]){
+		if(pre.coins + 2 != post->coins){
+			printf("failed: coins should increase by 2.\n");
+		}
+		else{
+			printf("passed: coins should increase by 2.\n");
+		}
+	}
+	else if(post->hand[nextPlayer][0] == baron){
+		if(pre.numActions + 1 == post->numActions){
+			printf("passed: numaction should increase by 1.\n");
+		}
+		else{
+			printf("failed: numaction should increase by 1.\n");
+		}
+	}
+	
 }
 
-void checkTributeEffect2(struct gameState *post)
+/*void checkTributeEffect2(struct gameState *post)
 {
     struct gameState pre;
     memcpy (&pre, post, sizeof(struct gameState));
@@ -89,7 +109,7 @@ void checkTributeEffect3(struct gameState *post)
 	printf("pre discardcount: %d\n", pre.discardCount[nextPlayer]);
 	printf("post discardcount: %d\n", post->discardCount[nextPlayer]);
 	//myAssert(post->discardCount[nextPlayer] = pre.discardCount[nextPlayer] - 1,"discardcount for nextplayer decrease by 1");
-}
+}*/
 
 int main()
 {
@@ -99,16 +119,20 @@ int main()
 
 	int playernum = 2;
 	int seed = 100;
+	int i;
 
 	struct gameState G;
 	memset(&G, 23, sizeof(struct gameState));
 	initializeGame(playernum, k, seed, &G);
 
     printf ("Testing tributeEffect.\n");
-
-	checkTributeEffect1(&G);
-	checkTributeEffect2(&G);
-	checkTributeEffect3(&G);
+	for(i = 0; i <100; i++){
+		printf("\nrandom test tributeeffect round %d:\n", i);
+		checkTributeEffect1(&G);
+	}
+	
+	//checkTributeEffect2(&G);
+	//checkTributeEffect3(&G);
 
     printf ("Test completed.\n");
 
