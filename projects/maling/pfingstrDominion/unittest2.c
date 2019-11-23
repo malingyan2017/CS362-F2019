@@ -15,14 +15,13 @@ void checkMinionEffect1(struct gameState *post) {
 	int choice1 = 1;
 	int choice2 = 0;
 
-	minionEffect(handPos, choice1, choice2, post, currentPlayer);
+	refactoredMinion(post, choice1, choice2, currentPlayer, handPos);
 	
 	printf("Test when choice1 is bigger than 0: \n");
 	
+	printf("coins should increase by 2. \n");
 	printf("pre coins: %d", pre.coins);
-	printf("post coins: d%", post->coins);
-	printf("coins should increase by 2.\n");
-
+	printf("post coins: %d", post->coins);
 	//myAssert(pre.coins + 2 == post->coins, "coins should increase by 2.");
 }
 
@@ -43,10 +42,11 @@ void checkMinionEffect2(struct gameState *post) {
 		drawCard(1, post);
 	}
 
-	minionEffect(handPos, choice1, choice2, post, currentPlayer);
+	//minionEffect(handPos, choice1, choice2, post, currentPlayer);
+	refactoredMinion(post, choice1, choice2, currentPlayer, handPos);
 
 	printf("\nTest when choice2 is bigger than 0: \n");
-	printf("handcount is current player should be 4: %d", post->handCount[currentPlayer]);
+	printf("handcount of current player should be 4: %d", post->handCount[currentPlayer]);
 	printf("handcount of next player should be 4: %d", post->handCount[1]);
 	//myAssert(post->handCount[currentPlayer] == 4, "handCount of current player should be 4");
 	//myAssert(post->handCount[1] == 4, "handCount of next player should be 4");
